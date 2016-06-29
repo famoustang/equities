@@ -1,0 +1,35 @@
+IDI_ICON1               ICON    DISCARDABLE     "equties.ico"
+
+#if defined(UNDER_CE)
+#include <winbase.h>
+#else
+#include <winver.h>
+#endif
+
+VS_VERSION_INFO VERSIONINFO
+    FILEVERSION 1,0,0,0
+    PRODUCTVERSION 1,0,0,0
+    FILEFLAGSMASK 0x3fL
+
+#ifdef _DEBUG
+    FILEFLAGS VS_FF_DEBUG
+#else
+    FILEFLAGS 0x0L
+#endif
+    FILEOS VOS__WINDOWS32
+    FILETYPE VFT_DLL
+    FILESUBTYPE 0x0L
+    BEGIN
+        BLOCK "StringFileInfo"
+        BEGIN
+            BLOCK "040904B0"
+            BEGIN
+                VALUE "CompanyName", "None\0"
+                VALUE "FileDescription", "行情显示\0"
+                VALUE "FileVersion", "1.0.0.0\0"
+                VALUE "LegalCopyright", "(C) 2016-2016 CopyLeft\0"
+                VALUE "OriginalFilename", "equity.exe\0"
+                VALUE "ProductName", "行情显示\0"
+            END
+        END
+    END

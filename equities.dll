@@ -1,0 +1,12 @@
+[refresh_time]
+time=30
+
+[opacity]
+op=2
+
+[equity_number]
+number=2
+
+[equities]
+equity_1=sh600020
+equity_2=sh601198
