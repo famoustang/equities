@@ -16,6 +16,8 @@
 #include <QIcon>
 #include <QTextCodec>
 #include <QEvent>
+#include <QMouseEvent>
+
 #include "setupdialog.h"
 
 namespace Ui {
@@ -61,12 +63,15 @@ private:
     int sale_one_number;//卖一股数
     int last_requst;
     int opacity;
+    QPoint press_pos;
     //follow variable are use global
     static QSettings *settings;
     //until here
 protected:
     void enterEvent(QEvent *event);
     void leaveEvent(QEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
 public slots:
     void QNetNetworkAccessManagerreplyFinished(QNetworkReply*reply);
     void TimerToUpdateEquityInformation();

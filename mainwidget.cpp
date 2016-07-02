@@ -492,3 +492,14 @@ void MainWidget::leaveEvent(QEvent *event)
 {
     this->setWindowOpacity(opacity / 10.0);
 }
+
+void MainWidget::mousePressEvent(QMouseEvent *event)
+{
+
+    press_pos = event->pos();
+}
+
+void MainWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    this->move(this->mapToGlobal(event->pos()) - press_pos);
+}
