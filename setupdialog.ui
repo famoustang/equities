@@ -6,41 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>223</width>
-    <height>125</height>
+    <width>608</width>
+    <height>326</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="pushButtonAdd">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>10</y>
-     <width>75</width>
-     <height>30</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Add</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEditEquity">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>10</y>
-     <width>113</width>
-     <height>30</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QComboBox" name="comboBoxRefresh">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>50</y>
+     <x>370</x>
+     <y>180</y>
      <width>111</width>
      <height>30</height>
     </rect>
@@ -94,8 +71,8 @@
   <widget class="QLabel" name="labelRefresh">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>50</y>
+     <x>490</x>
+     <y>180</y>
      <width>81</width>
      <height>30</height>
     </rect>
@@ -110,8 +87,8 @@
   <widget class="QSlider" name="horizontalSlider">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>100</y>
+     <x>370</x>
+     <y>230</y>
      <width>111</width>
      <height>15</height>
     </rect>
@@ -132,8 +109,8 @@
   <widget class="QLabel" name="labelOpacity">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>90</y>
+     <x>490</x>
+     <y>220</y>
      <width>81</width>
      <height>30</height>
     </rect>
@@ -143,6 +120,58 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonAddRow">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>50</y>
+     <width>151</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Add Row</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidgetMaintain">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>331</width>
+     <height>311</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>24</pointsize>
+    </font>
+   </property>
+   <column>
+    <property name="text">
+     <string>Stock Name</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Stock Code</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="pushButtonDeleteRow">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>90</y>
+     <width>151</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Delete Row</string>
    </property>
   </widget>
  </widget>

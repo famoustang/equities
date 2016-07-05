@@ -7,9 +7,14 @@ SetupDialog::SetupDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setAttribute(Qt::WA_DeleteOnClose);
+    this->setWindowTitle(tr("Setup"));
     int time;
-    QSettings *settings;
+
     settings =  MainWidget::GetGlobalSetting();
+    if(settings == NULL){
+        QMessageBox::critical(this,tr("Error!"),tr("Configure file miss!"));
+        this->close();
+    }
     time = settings->value("refresh_time/time",30).toInt();
     if(time <= 1){
         ui->comboBoxRefresh->setCurrentIndex(0);
@@ -36,9 +41,39 @@ SetupDialog::SetupDialog(QWidget *parent) :
     opacity = settings->value("opacity/op",0).toInt();
     ui->horizontalSlider->setValue(opacity);
     this->setFixedSize(this->size());
-    connect(ui->pushButtonAdd,SIGNAL(clicked()),this,SLOT(PushButtonAddSlot()));
+
+    ui->tableWidgetMaintain->verticalHeader()->setFixedWidth(40);
+    int table_w ;
+    table_w = ui->tableWidgetMaintain->width();
+    table_w = (table_w - 40) /2 ;
+    ui->tableWidgetMaintain->horizontalHeader()->resizeSection(0,table_w - 1);
+    ui->tableWidgetMaintain->horizontalHeader()->resizeSection(1,table_w);
+    ui->tableWidgetMaintain->setSelectionBehavior ( QAbstractItemView::SelectRows); //设置选择行为，以行为单位
+    ui->tableWidgetMaintain->setSelectionMode ( QAbstractItemView::SingleSelection); //设置选择模式，选择单行
+
+
+    e_num = settings->value("equity_number/number",0).toInt();
+
+    ui->tableWidgetMaintain->setRowCount(e_num);
+    for(int i = 1;i <= e_num;i++){
+        QTableWidgetItem *item;
+        item = new QTableWidgetItem;
+        QString equity = "equities/equity_" + QString::number(i,10);
+        equity = settings->value(equity,"sh000000").toString();
+        item->setText(equity);
+        ui->tableWidgetMaintain->setItem(i - 1,1,item);
+        code_list<<equity;
+    }
+
+    ui->pushButtonDeleteRow->setEnabled(false);
+
     connect(ui->comboBoxRefresh,SIGNAL(activated(int)),this,SLOT(ComboBoxRefreshSlot(int)));
     connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(HorizontalSliderSlot(int)));
+    connect(ui->pushButtonAddRow,SIGNAL(clicked()),this,SLOT(PushButtonAddRowSlot()));
+    connect(ui->pushButtonDeleteRow,SIGNAL(clicked()),this,SLOT(PushButtonDeleteRowSlot()));
+    //connect(ui->tableWidgetMaintain,SIGNAL(itemClicked(QTableWidgetItem*)),this,SLOT(TableWidgetItemClickedSlot(QTableWidgetItem*)));
+    connect(ui->tableWidgetMaintain,SIGNAL(itemSelectionChanged()),this,SLOT(TableWidgetItemSelectionChangedSlot()));
+    connect(ui->tableWidgetMaintain,SIGNAL(itemChanged(QTableWidgetItem*)),this,SLOT(TableWidgetItemChangedSlot(QTableWidgetItem*)));
 }
 
 SetupDialog::~SetupDialog()
@@ -46,22 +81,6 @@ SetupDialog::~SetupDialog()
     delete ui;
 }
 
-void SetupDialog::PushButtonAddSlot()
-{
-    QSettings *settings;
-    int number;
-    settings =  MainWidget::GetGlobalSetting();
-    //number = MainWidget::GetGlobalEquityNumber();
-    if(settings){
-        number = settings->value("equity_number/number",0).toInt();
-        QString equity = "equities/equity_" + QString::number(number + 1,10);
-        settings->setValue("equity_number/number",number + 1);
-        settings->setValue(equity,ui->lineEditEquity->text());
-
-    }else{
-        QMessageBox::warning(NULL,tr("Warning!"),tr("settings is null!"));
-    }
-}
 
 void SetupDialog::ComboBoxRefreshSlot(int index)
 {
@@ -111,4 +130,44 @@ void SetupDialog::HorizontalSliderSlot(int pos)
         pos = 10;
     }
     emit SliderToRefresh(pos);
+}
+
+void SetupDialog::PushButtonAddRowSlot()
+{
+    ui->tableWidgetMaintain->insertRow(ui->tableWidgetMaintain->rowCount());
+    e_num ++;
+}
+
+void SetupDialog::PushButtonDeleteRowSlot()
+{
+    ui->tableWidgetMaintain->removeRow(ui->tableWidgetMaintain->currentRow());
+    e_num --;
+    settings->setValue("equity_number/number",e_num);
+    for(int i = 0 ;i < e_num ;i++){
+        QString equity = "equities/equity_" + QString::number(i + 1,10);
+        settings->setValue(equity,ui->tableWidgetMaintain->item(i,1)->text());
+    }
+}
+
+void SetupDialog::TableWidgetItemClickedSlot(QTableWidgetItem *item)
+{
+
+}
+
+void SetupDialog::TableWidgetItemSelectionChangedSlot()
+{
+    if(ui->tableWidgetMaintain->currentRow() != -1){
+        ui->pushButtonDeleteRow->setEnabled(true);
+    }else{
+        ui->pushButtonDeleteRow->setEnabled(false);
+    }
+}
+
+void SetupDialog::TableWidgetItemChangedSlot(QTableWidgetItem *item)
+{
+    settings->setValue("equity_number/number",e_num);
+    for(int i = 0 ;i < e_num ;i++){
+        QString equity = "equities/equity_" + QString::number(i + 1,10);
+        settings->setValue(equity,ui->tableWidgetMaintain->item(i,1)->text());
+    }
 }

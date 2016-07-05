@@ -6,6 +6,10 @@
 #include <QFile>
 #include "mainwidget.h"
 #include <QMessageBox>
+#include <QTableWidget>
+#include <QTableWidgetItem>
+#include <QStringList>
+#include <QDebug>
 namespace Ui {
 class SetupDialog;
 }
@@ -20,13 +24,20 @@ public:
 
 private:
     Ui::SetupDialog *ui;
+    QSettings *settings;
+    int e_num;
+    QStringList name_list,code_list;
 signals:
     void TimeToRefresh(int time_refresh);
     void SliderToRefresh(int value);
 public slots:
-    void PushButtonAddSlot();
     void ComboBoxRefreshSlot(int index);
     void HorizontalSliderSlot(int pos);
+    void PushButtonAddRowSlot();
+    void PushButtonDeleteRowSlot();
+    void TableWidgetItemClickedSlot(QTableWidgetItem *item);
+    void TableWidgetItemSelectionChangedSlot();
+    void TableWidgetItemChangedSlot(QTableWidgetItem *item);
 };
 
 #endif // SETUPDIALOG_H
