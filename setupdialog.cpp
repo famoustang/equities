@@ -74,6 +74,7 @@ SetupDialog::SetupDialog(QWidget *parent) :
     //connect(ui->tableWidgetMaintain,SIGNAL(itemClicked(QTableWidgetItem*)),this,SLOT(TableWidgetItemClickedSlot(QTableWidgetItem*)));
     connect(ui->tableWidgetMaintain,SIGNAL(itemSelectionChanged()),this,SLOT(TableWidgetItemSelectionChangedSlot()));
     connect(ui->tableWidgetMaintain,SIGNAL(itemChanged(QTableWidgetItem*)),this,SLOT(TableWidgetItemChangedSlot(QTableWidgetItem*)));
+    connect(ui->pushButtonDefaultPosition,SIGNAL(clicked()),this,SLOT(PushButtonDefaultPositionClickedSlot()));
 }
 
 SetupDialog::~SetupDialog()
@@ -170,4 +171,9 @@ void SetupDialog::TableWidgetItemChangedSlot(QTableWidgetItem *item)
         QString equity = "equities/equity_" + QString::number(i + 1,10);
         settings->setValue(equity,ui->tableWidgetMaintain->item(i,1)->text());
     }
+}
+
+void SetupDialog::PushButtonDefaultPositionClickedSlot()
+{
+    emit DefaultPosition();
 }

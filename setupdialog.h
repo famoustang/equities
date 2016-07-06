@@ -30,6 +30,7 @@ private:
 signals:
     void TimeToRefresh(int time_refresh);
     void SliderToRefresh(int value);
+    void DefaultPosition();
 public slots:
     void ComboBoxRefreshSlot(int index);
     void HorizontalSliderSlot(int pos);
@@ -38,6 +39,7 @@ public slots:
     void TableWidgetItemClickedSlot(QTableWidgetItem *item);
     void TableWidgetItemSelectionChangedSlot();
     void TableWidgetItemChangedSlot(QTableWidgetItem *item);
+    void PushButtonDefaultPositionClickedSlot();
 };
 
 #endif // SETUPDIALOG_H

@@ -10,8 +10,7 @@ MainWidget::MainWidget(QWidget *parent) :
     ui->setupUi(this);
     desktop = new QDesktopWidget;
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Tool);
-    QRect desktop_rec = desktop->availableGeometry();
-    this->move(desktop_rec.width() - this->width(),desktop_rec.height() - this->height());
+
     ui->labelEquity->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     this->setAttribute(Qt::WA_TranslucentBackground, true);
 
@@ -24,16 +23,25 @@ MainWidget::MainWidget(QWidget *parent) :
         tray->show();
     }
 
+    QRect desktop_rec = desktop->availableGeometry();
     settings = new QSettings("equities.dll",QSettings::IniFormat,this);
+    if(settings == NULL){
+        QMessageBox::warning(NULL,tr("ERROR!"),tr("Fatal error! please restart!"));
+    }
     if(QFile::exists("equities.dll") == false){
 
         if(settings){
             settings->setValue("refresh_time/time",30);
             settings->setValue("opacity/op",2);
+            settings->setValue("position/x",desktop_rec.width() - this->width());
+            settings->setValue("position/y",desktop_rec.height() - this->height());
             settings->setValue("equity_number/number",1);
             settings->setValue("equities/equity_1","sh600020");
         }
     }
+
+    this->move(settings->value("position/x",desktop_rec.width() - this->width()).toInt(),
+               settings->value("position/y",desktop_rec.height() - this->height()).toInt());
 
     opacity = settings->value("opacity/op",2).toInt();
     this->setWindowOpacity(opacity / 10.0);
@@ -339,36 +347,75 @@ void MainWidget::QNetNetworkAccessManagerreplyFinished(QNetworkReply *reply)
             break;
         }
     }
+
+    ///
+    /// \brief showText
+    ///用来处理自动大小时可以使用到
+    ///
+    ///
     QString showText;
+    ///QString showTextLength;
     showText += e_name;
+    ///showTextLength += e_name;
+
     showText += " ";
+    ///showTextLength += " ";
+
     if(open_price >= yesterday_close_price){
         showText += "<font color='#FF0000'>" + QString::number(open_price,'g') +"</font>";
     }else{
         showText += "<font color='#00FF00'>" + QString::number(open_price,'g') +"</font>";
     }
+    ///showTextLength += QString::number(open_price,'g');
+
     showText += "(" + QString::number(yesterday_close_price,'g') + ")";
+    ///showTextLength += "(" + QString::number(yesterday_close_price,'g') + ")";
+
     showText += " ";
+    ///showTextLength += " ";
 
     if(buy_one >= open_price){
         showText += "<font color='#FF0000'>" +  QString::number(buy_one,'g') +"</font>";
     }else{
         showText += "<font color='#00FF00'>" +  QString::number(buy_one,'g') +"</font>";
     }
+    ///showTextLength += QString::number(buy_one,'g');
+
     if(sale_one >= open_price){
         showText += "<font color='#FF0000'>" +  ("(" + QString::number(sale_one,'g') + ")") + "</font>";
     }else{
         showText += "<font color='#00FF00'>" +  ("(" + QString::number(sale_one,'g') + ")") + "</font>";
     }
+    ///showTextLength += "(" + QString::number(sale_one,'g') + ")";
+
     if(buy_one >= open_price){
         showText += "<font color='#FF0000'>""&#x2191;""</font>";//↑ => utf-8bianma
+        ///showTextLength += "&#x2191;";
     }else{
         showText += "<font color='#00FF00'>""&#x2193;""</font>";//↓ => utf-8 bianma
+        ///showTextLength += "&#x2193;";
     }
 
     showText += " ";
+    ///showTextLength += " ";
+
     showText += QString::number(buy_one_number/100,10);
+    ///showTextLength += QString::number(buy_one_number/100,10);
+
     showText += "(" + QString::number(sale_one_number/100,10) + ")";
+    ///showTextLength += "(" + QString::number(sale_one_number/100,10) + ")";
+
+    ///qDebug()<<showTextLength;;
+    ///QFontMetrics fM(qApp->font());
+    ///qint32 font_width;
+    ///font_width = fM.width(showTextLength);
+    ///qDebug()<<font_width;
+    ///if(font_width + 10 <= this->width()){
+       /// ui->labelEquity->resize(font_width + 4,ui->labelEquity->height());
+
+    ///}else{
+
+    ///}
     ui->labelEquity->setText(showText);
 }
 
@@ -439,6 +486,7 @@ void MainWidget::MainWidgetSetup()
     setup->show();
     connect(setup,SIGNAL(TimeToRefresh(int)),this,SLOT(MainWidgetSetRefreshTime(int)));
     connect(setup,SIGNAL(SliderToRefresh(int)),this,SLOT(SetOpacity(int)));
+    connect(setup,SIGNAL(DefaultPosition()),this,SLOT(SetDefaultPosition()));
 }
 
 void MainWidget::MainWidgetSetRefreshTime(int time)
@@ -483,6 +531,15 @@ void MainWidget::SetOpacity(int op)
 
 }
 
+void MainWidget::SetDefaultPosition()
+{
+    QRect desktop_rec = desktop->availableGeometry();
+    this->move(desktop_rec.width() - this->width(),
+               desktop_rec.height() - this->height());
+    settings->setValue("position/x",desktop_rec.width() - this->width());
+    settings->setValue("position/y",desktop_rec.height() - this->height());
+}
+
 void MainWidget::enterEvent(QEvent *event)
 {
     this->setWindowOpacity(1);
@@ -502,4 +559,10 @@ void MainWidget::mousePressEvent(QMouseEvent *event)
 void MainWidget::mouseMoveEvent(QMouseEvent *event)
 {
     this->move(this->mapToGlobal(event->pos()) - press_pos);
+}
+
+void MainWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    settings->setValue("position/x",this->pos().x());
+    settings->setValue("position/y",this->pos().y());
 }

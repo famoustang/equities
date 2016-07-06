@@ -17,6 +17,7 @@
 #include <QTextCodec>
 #include <QEvent>
 #include <QMouseEvent>
+#include <QFontMetrics>
 
 #include "setupdialog.h"
 
@@ -72,6 +73,7 @@ protected:
     void leaveEvent(QEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
 public slots:
     void QNetNetworkAccessManagerreplyFinished(QNetworkReply*reply);
     void TimerToUpdateEquityInformation();
@@ -82,6 +84,7 @@ public slots:
     void MainWidgetSetRefreshTime(int time);
     void MainWidgetGetEquityData(int number);
     void SetOpacity(int opacity);
+    void SetDefaultPosition();
 };
 
 #endif // MAINWIDGET_H
