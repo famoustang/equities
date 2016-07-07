@@ -45,7 +45,7 @@ SetupDialog::SetupDialog(QWidget *parent) :
     ui->tableWidgetMaintain->verticalHeader()->setFixedWidth(40);
     int table_w ;
     table_w = ui->tableWidgetMaintain->width();
-    table_w = (table_w - 40) /2 ;
+    table_w = (table_w - 40) ;
     ui->tableWidgetMaintain->horizontalHeader()->resizeSection(0,table_w - 1);
     ui->tableWidgetMaintain->horizontalHeader()->resizeSection(1,table_w);
     ui->tableWidgetMaintain->setSelectionBehavior ( QAbstractItemView::SelectRows); //设置选择行为，以行为单位
@@ -53,7 +53,6 @@ SetupDialog::SetupDialog(QWidget *parent) :
 
 
     e_num = settings->value("equity_number/number",0).toInt();
-
     ui->tableWidgetMaintain->setRowCount(e_num);
     for(int i = 1;i <= e_num;i++){
         QTableWidgetItem *item;
@@ -61,8 +60,9 @@ SetupDialog::SetupDialog(QWidget *parent) :
         QString equity = "equities/equity_" + QString::number(i,10);
         equity = settings->value(equity,"sh000000").toString();
         item->setText(equity);
-        ui->tableWidgetMaintain->setItem(i - 1,1,item);
+        ui->tableWidgetMaintain->setItem(i - 1,0,item);
         code_list<<equity;
+
     }
 
     ui->pushButtonDeleteRow->setEnabled(false);
