@@ -10,6 +10,7 @@
 #include <QTableWidgetItem>
 #include <QStringList>
 #include <QDebug>
+#include <QFontDialog>
 namespace Ui {
 class SetupDialog;
 }
@@ -27,6 +28,7 @@ private:
     QSettings *settings;
     int e_num;
     QStringList name_list,code_list;
+    QFontDialog *fontDialog;
 signals:
     void TimeToRefresh(int time_refresh);
     void SliderToRefresh(int value);
@@ -40,6 +42,7 @@ public slots:
     void TableWidgetItemSelectionChangedSlot();
     void TableWidgetItemChangedSlot(QTableWidgetItem *item);
     void PushButtonDefaultPositionClickedSlot();
+    void PushButtonFontChangeSlot();
 };
 
 #endif // SETUPDIALOG_H

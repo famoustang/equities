@@ -75,6 +75,7 @@ SetupDialog::SetupDialog(QWidget *parent) :
     connect(ui->tableWidgetMaintain,SIGNAL(itemSelectionChanged()),this,SLOT(TableWidgetItemSelectionChangedSlot()));
     connect(ui->tableWidgetMaintain,SIGNAL(itemChanged(QTableWidgetItem*)),this,SLOT(TableWidgetItemChangedSlot(QTableWidgetItem*)));
     connect(ui->pushButtonDefaultPosition,SIGNAL(clicked()),this,SLOT(PushButtonDefaultPositionClickedSlot()));
+    connect(ui->pushButtonDefaultFont,SIGNAL(clicked()),this,SLOT(PushButtonFontChangeSlot()));
 }
 
 SetupDialog::~SetupDialog()
@@ -176,4 +177,19 @@ void SetupDialog::TableWidgetItemChangedSlot(QTableWidgetItem *item)
 void SetupDialog::PushButtonDefaultPositionClickedSlot()
 {
     emit DefaultPosition();
+}
+
+void SetupDialog::PushButtonFontChangeSlot()
+{
+    //QFontDialog *fontDialog = new QFontDialog(this);
+    //fontDialog->setModal(true);
+    //fontDialog->show();
+    bool ok;
+    QFont font = QFontDialog::getFont(&ok,qApp->font(),this,tr("select font"));
+    if(ok){
+        qApp->setFont(font);
+        //settings->setValue("font/current",font);
+    }else{
+
+    }
 }

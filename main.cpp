@@ -7,8 +7,9 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     QFont font;
     font.setFamily("Times New Roman");
-    font.setPixelSize(24);
+    font.setPointSize(18);
     qApp->setFont(font);
+    qDebug()<<qApp->font();
     MainWidget w;
     w.show();
 

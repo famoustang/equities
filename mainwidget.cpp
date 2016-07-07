@@ -31,6 +31,7 @@ MainWidget::MainWidget(QWidget *parent) :
     if(QFile::exists("equities.dll") == false){
 
         if(settings){
+            //settings->setValue("font/current","Times New Roman,18,-1,5,50,0,0,0,0,0");
             settings->setValue("refresh_time/time",30);
             settings->setValue("opacity/op",2);
             settings->setValue("position/x",desktop_rec.width() - this->width());
@@ -42,6 +43,7 @@ MainWidget::MainWidget(QWidget *parent) :
 
     this->move(settings->value("position/x",desktop_rec.width() - this->width()).toInt(),
                settings->value("position/y",desktop_rec.height() - this->height()).toInt());
+
 
     opacity = settings->value("opacity/op",2).toInt();
     this->setWindowOpacity(opacity / 10.0);
