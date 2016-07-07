@@ -9,7 +9,6 @@ int main(int argc, char *argv[])
     font.setFamily("Times New Roman");
     font.setPointSize(18);
     qApp->setFont(font);
-    qDebug()<<qApp->font();
     MainWidget w;
     w.show();
 
