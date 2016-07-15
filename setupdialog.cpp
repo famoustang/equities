@@ -147,7 +147,7 @@ void SetupDialog::PushButtonDeleteRowSlot()
     settings->setValue("equity_number/number",e_num);
     for(int i = 0 ;i < e_num ;i++){
         QString equity = "equities/equity_" + QString::number(i + 1,10);
-        settings->setValue(equity,ui->tableWidgetMaintain->item(i,1)->text());
+        settings->setValue(equity,ui->tableWidgetMaintain->item(i,0)->text());
     }
 }
 
@@ -170,7 +170,7 @@ void SetupDialog::TableWidgetItemChangedSlot(QTableWidgetItem *item)
     settings->setValue("equity_number/number",e_num);
     for(int i = 0 ;i < e_num ;i++){
         QString equity = "equities/equity_" + QString::number(i + 1,10);
-        settings->setValue(equity,ui->tableWidgetMaintain->item(i,1)->text());
+        settings->setValue(equity,ui->tableWidgetMaintain->item(i,0)->text());
     }
 }
 
