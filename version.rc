@@ -1,4 +1,4 @@
-IDI_ICON1               ICON    DISCARDABLE     "equties.ico"
+IDI_ICON1 ICON "equties.ico"
 
 #if defined(UNDER_CE)
 #include <winbase.h>
@@ -7,10 +7,9 @@ IDI_ICON1               ICON    DISCARDABLE     "equties.ico"
 #endif
 
 VS_VERSION_INFO VERSIONINFO
-    FILEVERSION 1,0,0,0
-    PRODUCTVERSION 1,0,0,0
+    FILEVERSION 1,0,0,10
+    PRODUCTVERSION 1,0,0,10
     FILEFLAGSMASK 0x3fL
-
 #ifdef _DEBUG
     FILEFLAGS VS_FF_DEBUG
 #else
@@ -22,14 +21,22 @@ VS_VERSION_INFO VERSIONINFO
     BEGIN
         BLOCK "StringFileInfo"
         BEGIN
-            BLOCK "040904B0"
+            BLOCK "080404b0"
             BEGIN
-                VALUE "CompanyName", "None\0"
+                VALUE "CompanyName", "自由软件\0"
                 VALUE "FileDescription", "行情显示\0"
-                VALUE "FileVersion", "1.0.0.0\0"
-                VALUE "LegalCopyright", "(C) 2016-2016 CopyLeft\0"
-                VALUE "OriginalFilename", "equity.exe\0"
+                VALUE "FileVersion", "1.0.0.1\0"
+                VALUE "ProductVersion", "1.0.0.1\0"
+                VALUE "LegalCopyright", "版权没有 (C) 开源软件\0"
+                VALUE "LegalTrademarks", "自由软件\0"
+                VALUE "OriginalFilename", "equities.exe\0"
                 VALUE "ProductName", "行情显示\0"
-            END
+                VALUE "InternalName", "equities.exe\0"
+           END
+        END
+
+        BLOCK "VarFileInfo"
+        BEGIN
+            VALUE "Translation", 0x804, 1200
         END
     END

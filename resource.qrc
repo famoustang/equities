@@ -3,4 +3,7 @@
         <file>equties.ico</file>
         <file>m.jpg</file>
     </qresource>
+    <qresource prefix="/">
+        <file>version.rc</file>
+    </qresource>
 </RCC>
